@@ -1,0 +1,137 @@
+warning: unused variable: `service_data`
+   --> bacnet-mqtt-gateway/src/bacnet.rs:150:86
+    |
+150 | ...                   Apdu::ConfirmedRequest { service_choice, service_data, invoke_id, .. } => {
+    |                                                                ^^^^^^^^^^^^ help: try ignoring the field: `service_data: _`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `invoke_id`
+   --> bacnet-mqtt-gateway/src/bacnet.rs:150:100
+    |
+150 | ...                   Apdu::ConfirmedRequest { service_choice, service_data, invoke_id, .. } => {
+    |                                                                              ^^^^^^^^^ help: try ignoring the field: `invoke_id: _`
+
+warning: unused variable: `state_topic`
+  --> bacnet-mqtt-gateway/src/main.rs:82:33
+   |
+82 | ...                   let state_topic = format!("{}/sensor/{}/state", mqtt_prefix, unique_id);
+   |                           ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_state_topic`
+
+warning: field `1` is never read
+  --> bacnet-mqtt-gateway/src/bacnet.rs:21:43
+   |
+21 |     ReadPropertyAck(ReadPropertyResponse, u8, SocketAddr),
+   |     --------------- field in this variant ^^
+   |
+   = note: `BacnetEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+   |
+21 -     ReadPropertyAck(ReadPropertyResponse, u8, SocketAddr),
+21 +     ReadPropertyAck(ReadPropertyResponse, (), SocketAddr),
+   |
+
+warning: variant `ReadProperty` is never constructed
+  --> bacnet-mqtt-gateway/src/bacnet.rs:20:5
+   |
+17 | pub enum BacnetEvent {
+   |          ----------- variant in this enum
+...
+20 |     ReadProperty(ReadPropertyRequest, u8, SocketAddr),
+   |     ^^^^^^^^^^^^
+   |
+   = note: `BacnetEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `config` and `device` are never read
+  --> bacnet-mqtt-gateway/src/bacnet.rs:25:5
+   |
+24 | pub struct BacnetEngine {
+   |            ------------ fields in this struct
+25 |     config: BacnetConfig,
+   |     ^^^^^^
+26 |     datalink: Arc<std::sync::Mutex<BacnetIpDataLink>>,
+27 |     device: Device,
+   |     ^^^^^^
+
+warning: associated items `load_from_file` and `save_to_file` are never used
+  --> bacnet-mqtt-gateway/src/config.rs:52:12
+   |
+51 | impl GatewayConfig {
+   | ------------------ associated items in this implementation
+52 |     pub fn load_from_file<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn std::error::Error>> {
+   |            ^^^^^^^^^^^^^^
+...
+58 |     pub fn save_to_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn std::error::Error>> {
+   |            ^^^^^^^^^^^^
+
+warning: `bacnet-mqtt-gateway` (bin "bacnet-mqtt-gateway") generated 7 warnings (run `cargo fix --bin "bacnet-mqtt-gateway" -p bacnet-mqtt-gateway` to apply 3 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running `target/debug/bacnet-mqtt-gateway`
+[2m2026-02-21T02:56:54.652888Z[0m [32m INFO[0m [2mbacnet_mqtt_gateway[0m[2m:[0m Starting BACnet-MQTT Gateway...
+[2m2026-02-21T02:56:54.653003Z[0m [32m INFO[0m [2mbacnet_mqtt_gateway::bacnet[0m[2m:[0m Initializing BACnet IP on 0.0.0.0:47808
+[2m2026-02-21T02:56:54.654380Z[0m [32m INFO[0m [2mbacnet_mqtt_gateway::bacnet[0m[2m:[0m Broadcasted Who-Is request
+[2m2026-02-21T02:56:54.655068Z[0m [32m INFO[0m [2mbacnet_mqtt_gateway[0m[2m:[0m Web UI listening on 0.0.0.0:8123
+[2m2026-02-21T02:56:59.657279Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5002 millisecs,
+            last outgoing request before 5002 millisecs
+[2m2026-02-21T02:57:04.658317Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5000 millisecs
+[2m2026-02-21T02:57:09.660084Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:14.661674Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5001 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:19.662452Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 4999 millisecs,
+            last outgoing request before 5000 millisecs
+[2m2026-02-21T02:57:24.663830Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:29.670141Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5005 millisecs,
+            last outgoing request before 5006 millisecs
+[2m2026-02-21T02:57:34.671315Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5000 millisecs
+[2m2026-02-21T02:57:39.673626Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5001 millisecs,
+            last outgoing request before 5002 millisecs
+[2m2026-02-21T02:57:44.675136Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:49.676765Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:54.678038Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:57:59.690927Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5011 millisecs,
+            last outgoing request before 5012 millisecs
+[2m2026-02-21T02:58:04.692108Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5000 millisecs
+[2m2026-02-21T02:58:09.694333Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5001 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:58:14.696062Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 4999 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:58:19.697977Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5001 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:58:24.699502Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:58:29.700256Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5000 millisecs
+[2m2026-02-21T02:58:34.702005Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5001 millisecs,
+            last outgoing request before 5001 millisecs
+[2m2026-02-21T02:58:39.703300Z[0m [34mDEBUG[0m [2mrumqttc::state[0m[2m:[0m Pingreq,
+            last incoming packet before 5000 millisecs,
+            last outgoing request before 5001 millisecs

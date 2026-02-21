@@ -52,10 +52,22 @@ If you don't have a real BACnet device on your network, you can run the test res
 
 ```bash
 cd bacnet-test-responder
-cargo run
+RUST_LOG=info cargo run
 ```
 
-*Note: You may need to modify the responder to actively reply to `Who-Is` and `ReadProperty` requests if it's currently a stub.*
+The test responder simulates a device with `AnalogInput 0` (Present Value). Once running, it starts a lightweight HTTP API on port `8124` so you can interact with it dynamically during your end-to-end tests:
+
+*   **Change Simulated Value:**
+    ```bash
+    curl -X POST http://localhost:8124/value/75.2
+    ```
+    *(The next time the gateway polls the responder, it will read `75.2` and publish it to MQTT).*
+
+*   **Force an `I-Am` Broadcast:**
+    ```bash
+    curl -X POST http://localhost:8124/iam
+    ```
+    *(Useful for triggering the gateway's discovery mechanism manually).*
 
 ## 📖 Architecture
 
