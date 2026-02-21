@@ -1,0 +1,27 @@
+[package]
+name = "bacnet-mqtt-gateway"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# BACnet core
+bacnet-rs = { git = "https://github.com/bacnet-rs/bacnet-rs.git" }
+
+# Async runtime
+tokio = { version = "1.37.0", features = ["full"] }
+
+# MQTT Client
+rumqttc = "0.24.0"
+
+# Configuration and Serialization
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.115"
+serde_yaml = "0.9.34"
+
+# Logging
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# Web UI / Configuration Server
+axum = "0.7.5"
+tower-http = { version = "0.5.2", features = ["fs", "cors", "trace"] }

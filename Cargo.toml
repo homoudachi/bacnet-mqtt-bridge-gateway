@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "bacnet-mqtt-gateway",
+    "bacnet-test-responder"
+]
+
+resolver = "2"

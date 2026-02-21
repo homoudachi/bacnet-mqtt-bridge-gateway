@@ -1,0 +1,20 @@
+[package]
+name = "bacnet-test-responder"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# BACnet core
+bacnet-rs = { git = "https://github.com/bacnet-rs/bacnet-rs.git" }
+
+# Async runtime
+tokio = { version = "1.37.0", features = ["full", "macros", "rt-multi-thread"] }
+
+# Logging
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# Small HTTP server for remote test triggering
+axum = "0.7.5"
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.115"

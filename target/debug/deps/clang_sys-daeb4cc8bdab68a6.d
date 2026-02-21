@@ -1,0 +1,14 @@
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/deps/clang_sys-daeb4cc8bdab68a6.d: /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/macros.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/common.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/dynamic.rs
+
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/deps/libclang_sys-daeb4cc8bdab68a6.rlib: /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/macros.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/common.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/dynamic.rs
+
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/deps/libclang_sys-daeb4cc8bdab68a6.rmeta: /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/macros.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/common.rs /home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/dynamic.rs
+
+/home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs:
+/home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs:
+/home/matt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs:
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/macros.rs:
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/common.rs:
+/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out/dynamic.rs:
+
+# env-dep:OUT_DIR=/home/matt/antigravity/bacnet-mqtt-bridge-gateway/target/debug/build/clang-sys-2ba1ea0f2ce33139/out
