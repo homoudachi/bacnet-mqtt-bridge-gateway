@@ -10,6 +10,7 @@ use bacnet_rs::{
 use tokio::sync::mpsc;
 use std::net::SocketAddr;
 use std::sync::Arc;
+use std::sync::atomic::{AtomicU8, Ordering};
 use tracing::{info, trace};
 
 #[derive(Debug, Clone)]
@@ -24,6 +25,7 @@ pub struct BacnetEngine {
     config: BacnetConfig,
     datalink: Arc<std::sync::Mutex<BacnetIpDataLink>>,
     device: Device,
+    invoke_id: AtomicU8,
 }
 
 impl BacnetEngine {
@@ -40,6 +42,7 @@ impl BacnetEngine {
             config,
             datalink: Arc::new(std::sync::Mutex::new(datalink)),
             device,
+            invoke_id: AtomicU8::new(1),
         })
     }
 
@@ -70,8 +73,50 @@ impl BacnetEngine {
         Ok(())
     }
 
+    /// Sends a ReadPropertyRequest to a specific device
+    pub fn read_property(
+        &self,
+        target: SocketAddr,
+        object_identifier: bacnet_rs::object::ObjectIdentifier,
+        property_identifier: u32,
+    ) -> Result<u8, Box<dyn std::error::Error>> {
+        let req = ReadPropertyRequest::new(object_identifier, property_identifier);
+        let mut service_data = Vec::new();
+        req.encode(&mut service_data)?;
+
+        // Simple invoke ID generator
+        let invoke_id = self.invoke_id.fetch_add(1, Ordering::Relaxed);
+
+        let apdu = Apdu::ConfirmedRequest {
+            segmented: false,
+            more_follows: false,
+            segmented_response_accepted: true,
+            max_segments: bacnet_rs::app::MaxSegments::Unspecified,
+            max_response_size: bacnet_rs::app::MaxApduSize::Up1476,
+            invoke_id,
+            sequence_number: None,
+            proposed_window_size: None,
+            service_choice: bacnet_rs::service::ConfirmedServiceChoice::ReadProperty,
+            service_data,
+        };
+
+        let mut npdu = Npdu::new();
+        npdu.control.expecting_reply = true;
+        npdu.control.priority = 0;
+        
+        let mut packet = npdu.encode();
+        packet.extend_from_slice(&apdu.encode());
+
+        if let Ok(mut dl) = self.datalink.lock() {
+            dl.send_unicast_npdu(&packet, target)?;
+            trace!("Sent ReadProperty to {} for {:?}", target, object_identifier);
+        }
+        
+        Ok(invoke_id)
+    }
+
     /// Spawns the background Tokio task that constantly receives UDP BACnet datagrams
-    pub async fn start(self) -> mpsc::Receiver<BacnetEvent> {
+    pub async fn start(&self) -> mpsc::Receiver<BacnetEvent> {
         let (tx, rx) = mpsc::channel(100);
         let dl = self.datalink.clone();
         
@@ -102,7 +147,22 @@ impl BacnetEngine {
                                                     _ => None,
                                                 }
                                             }
-                                            // TODO: Confirmed requests and acknowledgements decoding
+                                            Apdu::ConfirmedRequest { service_choice, service_data, invoke_id, .. } => {
+                                                match service_choice {
+                                                    bacnet_rs::service::ConfirmedServiceChoice::ReadProperty => {
+                                                        tracing::trace!("ReadPropertyRequest decode not implemented in bacnet-rs yet");
+                                                        None
+                                                    }
+                                                    _ => None,
+                                                }
+                                            }
+                                            Apdu::ComplexAck { service_choice, service_data, invoke_id, .. } => {
+                                                if service_choice == bacnet_rs::service::ConfirmedServiceChoice::ReadProperty as u8 {
+                                                    ReadPropertyResponse::decode(&service_data).ok().map(|ack| BacnetEvent::ReadPropertyAck(ack, invoke_id, source_addr))
+                                                } else {
+                                                    None
+                                                }
+                                            }
                                             _ => None,
                                         };
 
