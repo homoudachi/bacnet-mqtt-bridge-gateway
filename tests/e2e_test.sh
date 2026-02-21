@@ -1,18 +1,11 @@
 #!/bin/bash
 set -e
 
-if [ -z "$1" ]; then
-    echo "Usage: ./tests/e2e_test.sh <RESPONDER_IP>"
-    exit 1
-fi
-
-RESPONDER_IP=$1
+RESPONDER_IP=${1:-""}
 RESPONDER_PORT=8124
-URL="http://$RESPONDER_IP:$RESPONDER_PORT"
 
 echo "================================================="
 echo "   BACnet-MQTT Bridge E2E Test Suite             "
-echo "   Target Responder: $RESPONDER_IP               "
 echo "================================================="
 
 echo "[1/4] Starting Local Mosquitto Broker (Docker)..."
@@ -32,7 +25,32 @@ function cleanup {
 }
 trap cleanup EXIT
 
+echo "Waiting for Gateway to boot and broadcast Who-Is..."
 sleep 3
+
+if [ -z "$RESPONDER_IP" ]; then
+    echo "No Responder IP explicitly provided. Scanning gateway logs for auto-discovered devices..."
+    
+    # Wait up to 10 seconds for the discovery log
+    for i in {1..10}; do
+        # Extract IP format from log lines like: "Discovered BACnet device 99999 at 192.168.1.106:47809"
+        FOUND_IP=$(grep "Discovered BACnet device" tests/gateway.log | sed -E 's/.* at ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+).*/\1/' | head -n 1)
+        if [ ! -z "$FOUND_IP" ]; then
+            RESPONDER_IP="$FOUND_IP"
+            echo "✅ Auto-discovered Responder IP: $RESPONDER_IP"
+            break
+        fi
+        sleep 1
+    done
+
+    if [ -z "$RESPONDER_IP" ]; then
+        echo "❌ FAILED: Auto-discovery timed out. Ensure the responder is running on the network."
+        exit 1
+    fi
+fi
+
+URL="http://$RESPONDER_IP:$RESPONDER_PORT"
+echo "Target Responder API: $URL"
 
 echo "[3/4] Triggering Who-Is/I-Am exchange..."
 echo "Forcing responder to broadcast I-Am..."
